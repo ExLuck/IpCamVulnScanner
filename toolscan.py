@@ -18,13 +18,24 @@ vuln = colored('Vulnerable', 'red', attrs=['bold'])
 ok = colored('Safe', 'green', attrs=['bold'])
 telerr = colored ('No telnet connection', 'white', 'on_red')
 
+
+try:
+	t = remote(target_host, target_port)	
+	link = "http://" + target_host + "/Login.htm"
+	r = requests.post(link)
+	login_size = len(r.text)
+	t.close() 
+except:
+	log.info ("No connection")
+	sys.exit(1)
+
 def check5time():
 	login = "POST /Login.htm HTTP/1.1 command=login&username=admin&password=123abcThisPasswordCantBeRightcba321"
 	for x in range(5):
 		r = remote(target_host, target_port)
 		r.sendline(login)
 		data = len(r.recvall()) 
-	if data >= 20000:
+	if data >= login_size:
 		log.info ("Result: " + vuln)
 	else:
 		log.info ("Result: " + ok)
@@ -48,7 +59,7 @@ def brokenac():
 	r = remote(target_host, target_port)
 	r.sendline(bypass)
 	data = len(r.recvall()) 
-	if data >= 20000:
+	if data >= login_size:
 		log.info ("Result: " + vuln)
 	else:
 		log.info ("Result: " + ok)
@@ -61,6 +72,7 @@ def pathtravel():
 	r.recvuntil("Expires: 0\n", timeout=5)
 	r.recvline()
 	data = r.recvuntil("root", timeout=5)
+	data = data[-4:]
 	r.recvall()
 	r.close()	
 	if data == b'root':
