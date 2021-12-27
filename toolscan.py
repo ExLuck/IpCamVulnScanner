@@ -30,7 +30,7 @@ except:
 	log.info ("No connection")
 	sys.exit(1)
 
-def check5time():
+def logicbug():
 	pwd = ''.join(random.choice(string.printable + string.digits) for _ in range(10))
 	log.info ("Using random string: " + pwd)	
 	login = "POST /Login.htm HTTP/1.1 command=login&username=admin&password=" + pwd
@@ -43,7 +43,7 @@ def check5time():
 	else:
 		log.info ("Result: " + ok)
 
-def pwdbackdoor():
+def hardcode():
 	pwd = "command=login&username=admin&password=I0TO5Wv9"
 	link = "http://" + target_host + "/Login.htm"
 	try:
@@ -111,9 +111,9 @@ def bssbof():
 
 print ("------------------ IP camera vuln scanner ------------------")
 print ("*************** Check for hard-code password ***************")
-pwdbackdoor()
+hardcode()
 print ("**************** Check for login logic bug ****************")
-check5time()
+logicbug()
 print ("**************** Check for broken access control ****************")
 brokenac()
 print ("**************** Check for path traversal ****************")
