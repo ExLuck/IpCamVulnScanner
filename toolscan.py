@@ -38,7 +38,7 @@ def logicbug():
 		r = remote(target_host, target_port)
 		r.sendline(login)
 		data = len(r.recvall()) 
-	if data > login_size:
+	if data >= login_size*1.5:
 		log.info ("Result: " + vuln)
 	else:
 		log.info ("Result: " + ok)
@@ -50,7 +50,7 @@ def hardcode():
 		t = remote(target_host, target_port)	
 		r = requests.post(link, data=pwd)
 		t.close() 
-		if len(r.text) > login_size:
+		if len(r.text) >= login_size*1.5:
 			log.info ("Result: " + vuln)
 		else:
 			log.info ("Result: " + ok)
@@ -62,7 +62,7 @@ def brokenac():
 	r = remote(target_host, target_port)
 	r.sendline(bypass)
 	data = len(r.recvall()) 
-	if data > login_size:
+	if data >= login_size*1.5:
 		log.info ("Result: " + vuln)
 	else:
 		log.info ("Result: " + ok)
