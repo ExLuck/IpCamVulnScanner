@@ -18,7 +18,6 @@ vuln = colored('Vulnerable', 'red', attrs=['bold'])
 ok = colored('Safe', 'green', attrs=['bold'])
 telerr = colored ('No telnet connection', 'white', 'on_red')
 
-
 try:
 	t = remote(target_host, target_port)	
 	link = "http://" + target_host + "/Login.htm"
