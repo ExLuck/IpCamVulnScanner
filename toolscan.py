@@ -3,6 +3,7 @@ import requests
 import argparse
 import sys
 import time
+import random
 from termcolor import colored, cprint
 
 parser = argparse.ArgumentParser(description='------------------ IP camera vuln scanner ------------------')
@@ -18,6 +19,7 @@ vuln = colored('Vulnerable', 'red', attrs=['bold'])
 ok = colored('Safe', 'green', attrs=['bold'])
 telerr = colored ('No telnet connection', 'white', 'on_red')
 
+
 try:
 	t = remote(target_host, target_port)	
 	link = "http://" + target_host + "/Login.htm"
@@ -29,7 +31,9 @@ except:
 	sys.exit(1)
 
 def check5time():
-	login = "POST /Login.htm HTTP/1.1 command=login&username=admin&password=123abcThisPasswordCantBeRightcba321"
+	pwd = ''.join(random.choice(string.printable + string.digits) for _ in range(10))
+	log.info ("Using random string: " + pwd)	
+	login = "POST /Login.htm HTTP/1.1 command=login&username=admin&password=" + pwd
 	for x in range(5):
 		r = remote(target_host, target_port)
 		r.sendline(login)
